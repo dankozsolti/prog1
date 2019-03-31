@@ -68,7 +68,7 @@
  definíciójába beágyazzuk a fa egy csomópontjának az absztrakt jellemzését, ez lesz a
  beágyazott Csomopont osztály. Miért ágyazzuk be? Mert külön nem szánunk neki szerepet, ezzel
  is jelezzük, hogy csak a fa részeként számiolunk vele.*/
-char order('i');
+
 class LZWBinFa
 {
 public:
@@ -279,6 +279,7 @@ private:
 
 void kiir (Csomopont * elem, std::ostream & os)
 {
+	char order('i');
   // Nem létező csomóponttal nem foglalkozunk... azaz ez a rekurzió leállítása
         if (elem != NULL)
         {
