@@ -309,7 +309,7 @@ protected:			// ha esetleg egyszer majd kiterjesztjük az osztályt, mert
     // akkor ezek látszanak majd a gyerek osztályban is
 
     /* A fában tagként benne van egy csomópont, ez erősen ki van tüntetve, Ő a gyökér: */
-    Csomopont gyoker;
+    Csomopont *gyoker;
     int maxMelyseg;
     double atlag, szoras;
 
