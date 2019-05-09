@@ -1,0 +1,75 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Gutenberg!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+        <cover>
+            <para>
+                Programozás tankönyvek rövid olvasónaplói.
+            </para>
+        </cover>
+    </info>
+    <section>
+        <title>Programozási alapfogalmak</title>
+        <para>
+        
+        </para>
+    </section>        
+    <section>
+        <title>Programozás bevezetés</title>
+        <para>                
+            <citation>KERNIGHANRITCHIE</citation>
+        </para>
+        <para>
+            Megoldás videó: <link xlink:href="https://youtu.be/zmfT9miB-jY">https://youtu.be/zmfT9miB-jY</link>
+        </para>
+        <para>
+        Elsőként a vezérlési szerkezetekkel foglalkozunk. A vezérlésátadó utasítások azt határozzák meg, milyen sorrendben hajtsa végre a számítógép a számításokat. Foglalkozzunk a különféle utasításokkal, annak típusaival.
+        Az első ilyen típus az <emphasis role="strong">egyszerű kifejezések</emphasis>, az is lehet utasítás ha egy kifejezést, például egy <emphasis role="strong">x = 1</emphasis>-et pontosvesszővel zárunk. A kapcsos zárójelekkel behatárolt deklarációkat egy blokknak, összetett utasításnak veszünk.
+        A következő típus az <emphasis role="strong">if-else</emphasis> és az <emphasis role="strong">else if</emphasis> utasítások. Az if-else utasítással választást, döntést írunk le, míg az else if megoldással többszörös elágazást készíthetünk. Ha több irányba el akarjuk
+        ágaztatni a programot, ahhoz a <emphasis role="strong">switch</emphasis> utasítás remek eszköz. A switch kiértékeli azt a kifejezést, amit a zárójelek közé rakunk, majd megnézi, hogy az adott érték megegyezik-e a case-ben tartott értékkel; és ha talál ilyet, végrehajtja a case-en belüli utasításokat. Ezzel megspórolhatunk jópár if-else utasítást.
+        Minden case-en belüli utasítás végére kell egy <emphasis role="strong">break;</emphasis> függvény, ezzel tudatjuk a programmal, hogy itt ér véget az adott utasításunk. Ha megírtuk az összes case-t amit szerettünk volna, meg kell adnunk egy <emphasis role="strong">default</emphasis>
+        értéket, amit akkor ír ki a program, ha egyik case-nek sem felel meg az értékünk.</para>
+        <para>
+        A következő, amivel foglalkozunk, az a <emphasis role="strong">for</emphasis> és a <emphasis role="strong">while</emphasis> utasítások. A <emphasis role="strong">while()</emphasis> ciklusban a gépünk kiértékeli a zárójelben lévő kifejezést, és ha az nem nulla, akkor végrehajtja a kiadott
+        utasítást, majd újra kiértékeli a kifejezést. Ez a ciklus addig megy, amíg az érték 0 nem lesz. A <emphasis role="strong">while</emphasis> ciklus általános szerkezete: <programlisting><![CDATA[while(valami)
+    utasítások]]></programlisting> A <emphasis role="strong">for</emphasis> szerkezetre példa: <programlisting><![CDATA[for(x1,x2,x3)
+    utasítások]]></programlisting> ezt át tudnánk alakítani <emphasis role="strong">while</emphasis> szerkezetre is, az alábbi módon: <programlisting><![CDATA[x1;
+while (x2) {
+    utasítások
+    x3;
+}
+]]></programlisting> A <emphasis role="strong">for</emphasis> utasítás mindhárom összetevője (x1,x2,x3) kifejezés. Általában az x1, x3 függvényhívás vagy értékadás, az x2 pedig relációs kifejezés. El lehet hagyni a kifejezések bármelyikét, de a lényeg, hogy a pontosvessző maradjon.
+Ha a függvényhívás/értékadás elmarad, akkor a pontosvessző elmarad a kifejtésből; ha viszont az x2 marad el, akkor igaznak tekinthetjük az alábbi kódot: <programlisting language="c"><![CDATA[for(;;) {
+    kódcsipet
+}]]></programlisting> ami egy végtelen ciklus. Ki tudunk belőle ugrani egy <emphasis role="strong">break</emphasis> vagy <emphasis role="strong">return</emphasis> függvénnyel.
+        </para>
+        <para>
+            A következő amit megnézünk az a <emphasis role="strong">do-while</emphasis> utasítás lesz.
+         Ez abban különbözik a <emphasis role="strong">while</emphasis> és a <emphasis role="strong">for</emphasis> utasításoktól, hogy míg ez a kettő a kiugrási feltétel teljesülését a ciklus elején vizsgálja, addig a <emphasis role="strong">do-while</emphasis> mindezt a ciklus végén teszi meg. nézzük is hogyan épül ez fel: <programlisting language="c"><![CDATA[do
+            valami
+        while(kif);]]></programlisting> Először az utasítást(valami) hajtja végre, majd a kifejezést értékeli ki(kif). Ha igaz, akkor végrehajtja az utasítást. Ha hamis, akkor a ciklus véget ér. Ezt a megoldást ritkábban szokás használni.
+        </para>
+        <para>
+        A soron következő utasítás a <emphasis role="strong">break</emphasis> utasítás. Ezt azért használjuk, mert kényelmesebb néha úgy kilépni a ciklusból, hogy nem függvényvizsgálattal tesszük azt.
+        A <emphasis role="strong">break</emphasis> utasítástól a vezérlés egyből kilép a legbelső ciklusból vagy switchből.
+        </para>
+        <para>
+        Az utolsó előtti utasításunk a <emphasis role="strong">continue</emphasis> utasítás. Ez az utasítás a <emphasis role="strong">break</emphasis>-hez kapcsolódik, de ritkábban használjuk. A while és a do
+esetében azonnal vizsgálja a feltételt, a for esetében pedig átlép az újrainicializálás lépésre. A <emphasis role="strong">continue</emphasis> csak a for, while, do ciklusokra alkalmazható, switch-re nem.
+        </para>
+        <para>
+        A legutolsó utasításunk a <emphasis role="strong">goto</emphasis> utasítás. Ezzel címkékre tudunk ugratni. Eredetileg erre soha nincs szükségünk, ezért elég is ennyi róla.
+        </para>
+    </section>        
+    <section>
+        <title>Programozás</title>
+        <para>                
+            <citation>BMECPP</citation>
+        </para>
+        <para>
+            
+        </para>
+    </section>        
+</chapter>                

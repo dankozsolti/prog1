@@ -1,0 +1,265 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Caesar!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+    <section>
+        <title><type>double **</type> háromszögmátrix</title>
+        <para>
+           
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/tm.c">tm.c</link>
+        </para>
+        <para>
+            A programhoz nem kell semmilyen előleges define vagy deklaráció a könyvtárhívásokon kívül, ezért egyből jöhet a <literal>main</literal> függvény.
+            deklarálunk egy <literal>int</literal> típusú változót, aminek értékül 5-öt adunk, ez a sorok számát fogja megadni később.
+            Megadjuk, hogy ha bármilyen hibát észlel a program a <literal>malloc</literal> funkciónál, akkor a mutató a NULL-ba mutasson és kiugorjon a programból.
+            A hibák észlelése között <literal>printf</literal> függvényekkel kiíratjuk a tárcímeket az output elejére. Nézzük meg a mutatókat három ugyanilyen függvénnyel:
+            <programlisting language="c"><![CDATA[int nr = 5;
+    double **tm;
+    
+    printf("%p\n", &tm);]]></programlisting>
+            <programlisting language="c"><![CDATA[if ((tm = (double **) malloc (nr * sizeof (double *))) == NULL)
+    {
+        return -1;
+    }
+
+    printf("%p\n", tm);]]></programlisting>
+            <programlisting language="c"><![CDATA[for (int i = 0; i < nr; ++i)
+    {
+        if ((tm[i] = (double *) malloc ((i + 1) * sizeof (double))) == NULL)
+        {
+            return -1;
+        }
+
+    }
+
+    printf("%p\n", tm[0]);]]></programlisting>
+    <figure>
+    <mediaobject>
+        <imageobject>
+            <imagedata fileref="img/tarcim" scale="30" />
+        </imageobject>
+    </mediaobject>
+</figure>
+        </para>            
+    </section>        
+    <section>
+        <title>C EXOR titkosító</title>
+        <para>
+            Írj egy EXOR titkosítót C-ben!
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/titkosito.c">titkosito.c</link>
+        </para>
+        <para>
+        Mivel szöveget akarunk titkosítani, ezért azt bele kell raknunk egy fájlba, a programunk pedig majd ezen fog dolgozni. Mivel kell egy
+        visszafejtési kulcs, a könyvtárhívások után <literal>#define</literal>-oljuk a kulcsunk méretét, majd a buffer méretét is beállítjuk(256 byte).
+        A define után nincs más dolgunk, mint a main függvényt megírni. A kulcsot és a buffert egy-egy <literal>char</literal> változóban tároljuk,
+        majd megadunk két <literal>int</literal> változót a kulcs indexének és az olvasott bájtoknak. A kulcs méretét is egy <literal>int</literal>-ben tároljuk,
+        majd megadjuk, hogy a program futtatásakor be tudjuk írni a kívánt kulcsot argumentumként.
+        Ezután jön egy <literal>while</literal> ciklus, ami a bufferből olvassa a bájtokat, majd a cikluson belül egy <literal>for</literal> ciklus, amely EXOR segítségével kicseréli
+        a szöveg karaktereit a megadott kulcsunk alapján. Mivel a program a standard outputra löki az átírt karaktereket, ezért egy outputot kell megadnunk, amelybe írhatja a titkosított szöveget.
+        </para>            
+    </section>        
+    <section>
+        <title>Java EXOR titkosító</title>
+        <para>
+            Írj egy EXOR titkosítót Java-ban!
+        </para>
+        <para>
+            Tutor: Győri Márk Patrik
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/titkositas.java">titkositas.java</link>
+        </para>
+        <para>
+<programlisting language="java"><![CDATA[import java.io.InputStream;
+import java.io.OutputStream;
+ 
+class ExorTitkosito {
+    public ExorTitkosito(String text, InputStream input, OutputStream output) {
+        byte[] key = text.getBytes();
+        byte[] buffer = new byte[256];
+ 
+        int index = 0;
+        int readed = 0;
+        try {
+            while ((readed = input.read(buffer)) != -1) {
+                for(int i = 0; i < readed; i++) {
+                    buffer[i] = (byte)(buffer[i] ^ key[index]);
+                    index = (index + 1) % key.length;
+                }
+                output.write(buffer, 0, readed);
+            }
+        } catch (Exception e) {
+            System.out.println("Hibas a ciklus *cry* Hiba: " + e.getMessage());
+        }
+    }
+}
+ 
+public class Main {
+    public static void main(String[] args) {
+        if(args.length > 0)
+            new ExorTitkosito(args[0], System.in, System.out);
+        else
+            System.out.println("Nem adtal meg argumentet!");
+    }
+}]]></programlisting>
+            Egy külön osztályt hozunk létre a titkosításhoz <emphasis role="strong">(class ExorTitkosito)</emphasis>, aminek input-ként szolgál a kulcs és egy olvasó-író argumentum.
+            A <emphasis role="strong">while</emphasis> ciklus addig fut, amíg az olvasott bájtok el nem fogynak. Ezeket a bájtokat eltoljuk a megadott számú kulcs bájttal.
+            Minden bájton végigmegy a ciklus, majd visszaírjuk a kimeneti bufferbe.
+            Ezt a művelet egy <emphasis role="strong">try-catch</emphasis> blokkba rakjuk, így elfogja a hibákat, ami java kódolásnál lényeges.
+        </para>
+    </section>        
+    <section>
+        <title>C EXOR törő</title>
+        <para>
+            Írj egy olyan C programot, amely megtöri az első feladatban előállított titkos szövegeket!
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/toro.c">toro.c</link>
+        </para>
+        <para>
+            A törő programunk lényege, hogy a titkosításban használt EXOR-ral fejtsük vissza a szöveget, bár ehhez még kelleni fog pár plusz infó a programnak, amiből
+            ki tud indulni. A program folyamatosan vizsgálja az átlagos szóhosszt, valamint feltételezi, hogy a szöveg tartalmazza a gyakori magyar szavakat(hogy, nem, az, ha).
+            Ezekkel a vizsgálatokkal csökkentjük a potenciális töréseket. A másik dolog, amit tudnunk kell az az, hogy a kulcs hány és milyen típusú karakterből áll.
+            A <literal>main</literal> függvényben a titkosításhoz hasonló deklarációkat használjuk, tehát a kulcs méretét és az olvasott bájtokat; majd egy <literal>while</literal>
+            ciklusban olvassuk a titkosított bájtokat, ezután pedig a titkos bufferben lenullázzuk a maradék helyet. Előállítjuk az összes kulcsot <literal>for</literal> ciklusokkal,
+            majd a lehetséges tiszta szövegeket kiírja a kulccsal együtt a standard outputra. Végül újra EXOR-ozunk, így nem kell egy második buffert alkalmaznunk.
+        </para>            
+    </section>        
+    <section>
+        <title>Neurális OR, AND és EXOR kapu</title>
+        <para>
+            R
+        </para>
+        <para>
+            Megoldás videó: <link xlink:href="https://youtu.be/Koyw6IH5ScQ">https://youtu.be/Koyw6IH5ScQ</link>
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/NN_R">https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/NN_R</link>               
+        </para>
+        <para>
+            Először is beszéljünk magáról a neuronról. A neuron egy olyan agysejt, melynek alapfeladata elektromos jelek összegyűjtése, feldolgozása és szétterjesztése. 
+            Elnagyolva az mondható, hogy a neuron akkor „tüzel”, amikor a bemeneti értékek súlyozott összege meghalad egy küszöböt. Az alábbi ábra a neuron egyszerű matematikai modelljét mutatja, ahogy McCulloch és Pitts megalkották. 
+            Az egység kimeneti aktivációja:<mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/mi-20-0030.png" scale="80" />
+                </imageobject>
+            </mediaobject> ahol a<subscript>j</subscript> a j-edik egység kimeneti aktivációja és W<subscript>j,i</subscript> a j-től i-ig vezető összeköttetés súlya.
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/20-15.png" scale="700" />
+                </imageobject>
+            </mediaobject>
+            Mi főként a kapuval, vagyis az aktivációs függvénnyel foglalkozunk. 
+            Mivel ebben az R szimulációban neurális hálókkal fogunk foglalkozni ezért az első dolgunk az lesz, hogy meghívjuk a <emphasis role="strong">library(neuralnet)</emphasis> könyvtárat, majd a fenti ábra alapján megnézzük a kapukat. Kezdjük is az elsővel:
+            <programlisting language="R"><![CDATA[a1    <- c(0,1,0,1)
+a2    <- c(0,0,1,1)
+OR    <- c(0,1,1,1)
+
+or.data <- data.frame(a1, a2, OR)
+
+nn.or <- neuralnet(OR~a1+a2, or.data, hidden=0, linear.output=FALSE, stepmax = 1e+07, threshold = 0.000001)
+
+plot(nn.or)
+
+compute(nn.or, or.data[,1:2])
+]]></programlisting> Ha beírjuk a fenti kódot, a következőt fogja kidobni:
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/or.png" scale="50" />
+                </imageobject>
+            </mediaobject>
+            A fenti kód és ábra alapján a többi kaput is meg lehet oldani, nem kell szinte semmit átírnunk. Elkészítjük a második (ORAND) kaput.
+            
+            <programlisting language="R"><![CDATA[a1    <- c(0,1,0,1)
+a2    <- c(0,0,1,1)
+OR    <- c(0,1,1,1)
+AND   <- c(0,0,0,1)
+
+orand.data <- data.frame(a1, a2, OR, AND)
+
+nn.orand <- neuralnet(OR+AND~a1+a2, orand.data, hidden=0, linear.output=FALSE, stepmax = 1e+07, threshold = 0.000001)
+
+plot(nn.orand)
+
+compute(nn.orand, orand.data[,1:2])
+]]></programlisting> mivel az AND és az OR függetlenek egymástól, ezért ugyanazon hálózatban két kimenete lesz és így nyugodtan beírhatjuk mindkettőt.
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/orand.png" scale="80" />
+                </imageobject>
+            </mediaobject>
+Megnézzük az EXOR-os példát, itt sem kell átírnunk szinte semmit, csak az OR-t (vagy ORAND) EXOR-ra.
+            <programlisting language="R"><![CDATA[a1      <- c(0,1,0,1)
+a2      <- c(0,0,1,1)
+EXOR    <- c(0,1,1,0)
+
+exor.data <- data.frame(a1, a2, EXOR)
+
+nn.exor <- neuralnet(EXOR~a1+a2, exor.data, hidden=0, linear.output=FALSE, stepmax = 1e+07, threshold = 0.000001)
+
+plot(nn.exor)
+
+compute(nn.exor, exor.data[,1:2])
+]]></programlisting> A kizáró vagy példa az alábbi hálót fogja legenerálni:
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/exor1.png" scale="80" />
+                </imageobject>
+            </mediaobject>
+Végül játszunk egy kicsit a <emphasis role="strong">hidden</emphasis> részünkkel, mivel eddig csak a háló azon részeit láttuk, amiket lekérdeztünk, tehát nem láttunk rejtett neuronokat.
+Így viszont beleláthatunk kicsit jobban a rendszerbe, átadunk neki egy listát, hogyan is rajzolja ki a többrétegű hálónkat: <emphasis role="strong">hidden=c(6, 4, 6)</emphasis>. Nézzük is hogyan néz ki ez a kódon belül:
+            <programlisting language="R"><![CDATA[a1      <- c(0,1,0,1)
+a2      <- c(0,0,1,1)
+EXOR    <- c(0,1,1,0)
+
+exor.data <- data.frame(a1, a2, EXOR)
+
+nn.exor <- neuralnet(EXOR~a1+a2, exor.data, hidden=c(6, 4, 6), linear.output=FALSE, stepmax = 1e+07, threshold = 0.000001)
+
+plot(nn.exor)
+
+compute(nn.exor, exor.data[,1:2])
+
+]]></programlisting> Így már az ábránk is kicsit érdekesebb lesz:  
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/exor2.png" scale="40" />
+                </imageobject>
+            </mediaobject>
+            
+        </para>            
+    </section>        
+    <section>
+        <title>Hiba-visszaterjesztéses perceptron</title>
+        <para>
+            C++
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/nbatfai/nahshon/blob/master/ql.hpp#L64">https://github.com/nbatfai/nahshon/blob/master/ql.hpp#L64</link>
+        </para>
+        <para>
+            SKIP
+        </para>            
+    </section>        
+        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>                
