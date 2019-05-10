@@ -26,7 +26,7 @@
 Ennek a számolása a AntThread::moveAnts függvénnyel történik. Az AntThread külön szálon fut, így megállítható, és újra indítható. Erre bindeltük a "P" betűt, amit a keyPressEvent-nél találunk.
     <mediaobject>
         <imageobject>
-            <imagedata fileref="img/hangya" scale="30" />
+            <imagedata fileref="img/hangya.png" scale="30" />
         </imageobject>
     </mediaobject>
         </para>
@@ -66,7 +66,7 @@ semmi, mivel alkalmazzuk rá a fenti szabályokat.
 
     <mediaobject>
         <imageobject>
-            <imagedata fileref="img/elet" scale="30" />
+            <imagedata fileref="img/elet.png" scale="30" />
         </imageobject>
     </mediaobject>
 
@@ -88,7 +88,7 @@ A konzol kiírja, ha véletlen hibáznánk, és méri, hogy mennyi bits/sec a re
 
     <mediaobject>
         <imageobject>
-            <imagedata fileref="img/samu" scale="30" />
+            <imagedata fileref="img/samu.png" scale="30" />
         </imageobject>
     </mediaobject>
 
