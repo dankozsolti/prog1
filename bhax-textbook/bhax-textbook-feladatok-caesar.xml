@@ -43,7 +43,7 @@
     printf("%p\n", tm[0]);]]></programlisting>
     <mediaobject>
         <imageobject>
-            <imagedata fileref="img/tarcim" scale="30" />
+            <imagedata fileref="img/tarcim.jpg" scale="30" />
         </imageobject>
     </mediaobject>
         </para>            
