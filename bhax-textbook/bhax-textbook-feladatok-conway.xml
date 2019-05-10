@@ -1,0 +1,98 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Conway!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+    <section>
+        <title>Hangyaszimulációk</title>
+        <para>
+            Írj Qt C++-ban egy hangyaszimulációs programot, a forrásaidról utólag reverse engineering jelleggel
+            készíts UML osztálydiagramot is!
+        </para>
+        <para>
+            Megoldás videó: <link xlink:href="https://bhaxor.blog.hu/2018/10/10/myrmecologist">https://bhaxor.blog.hu/2018/10/10/myrmecologist</link>
+        </para>
+        <para>
+            Tutor: Győri Márk Patrik
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://gitlab.com/Mark018/prog1/tree/master/Conway/Myrmecologist">ant</link>               
+        </para>
+        <para>
+     A <emphasis role="strong">main</emphasis> függvény bekéri az argumentumokat, majd deklarálkja az <emphasis role="strong">AntWin</emphasis> osztályt (w) a bemeneti argumentumokkal, amely felelős a megjelenítésért.
+     Az <emphasis role="strong">AntThread</emphasis> osztály végzi a számolást és a "hangyák" lehelyezését. Itt az <literal>AntThread::newDir</literal> számolja ki, hogy melyik irányba menjen a hangya.
+Ennek a számolása a AntThread::moveAnts függvénnyel történik. Az AntThread külön szálon fut, így megállítható, és újra indítható. Erre bindeltük a "P" betűt, amit a keyPressEvent-nél találunk.
+    <mediaobject>
+        <imageobject>
+            <imagedata fileref="img/hangya" scale="30" />
+        </imageobject>
+    </mediaobject>
+        </para>
+    </section>        
+    <section>
+        <title>Java életjáték</title>
+        <para>
+            Írd meg Java-ban a John Horton Conway-féle életjátékot, 
+            valósítsa meg a sikló-kilövőt!
+        </para>
+        <para>
+            Megoldás videó: 
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href=""></link>               
+        </para>
+        <para>
+            <emphasis role="strong">SKIP</emphasis>
+        </para>            
+    </section>        
+    <section>
+        <title>Qt C++ életjáték</title>
+        <para>
+            Most Qt C++-ban!
+        </para>
+        <para>
+            Tutor: Győri Márk Patrik
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href=""></link>
+        </para>
+        <para>
+            Az elvet John Horton Conway dolgozta ki. A lényege, ha egy cella egyedül van, vagy nincs szomszédja,
+akkor eltűnik. Ha négy, vagy több szomszédja van akkor is eltűnik. Ha kettő vagy három szomszédja
+van, akkor megmarad. Minden cella, aminek három szomszédja van az tovább osztódik. Ez a műveletsor ismétlődik végtelenszer. Ha például egy 2x2-es cella van, és nincsen szomszédja akkor nem történik
+semmi, mivel alkalmazzuk rá a fenti szabályokat.
+
+    <mediaobject>
+        <imageobject>
+            <imagedata fileref="img/elet" scale="30" />
+        </imageobject>
+    </mediaobject>
+
+        </para>            
+    </section>        
+    <section>
+        <title>BrainB Benchmark</title>
+        <para>
+        </para>
+        <para>
+            Tutor: Győri Márk Patrik
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/nbatfai/esport-talent-search">BrainB</link>               
+        </para>
+        <para>
+        A játék lényege, hogy a <emphasis role="strong">Samu Entropy</emphasis> nevezetű négyztet kell megkeresnünk a többi négyzet közül, és benne kell tartanunk a kurzort a kék körben.
+A konzol kiírja, ha véletlen hibáznánk, és méri, hogy mennyi bits/sec a reakció időnk. Egyre több hamis entropy jelenik meg a képernyőn, szóval egyre nehezebb lesz a dolgunk
+
+    <mediaobject>
+        <imageobject>
+            <imagedata fileref="img/samu" scale="30" />
+        </imageobject>
+    </mediaobject>
+
+        </para>            
+    </section>        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>                

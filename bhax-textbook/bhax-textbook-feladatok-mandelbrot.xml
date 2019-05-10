@@ -1,0 +1,168 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Mandelbrot!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+    <section>
+        <title>A Mandelbrot halmaz</title>
+        <para>
+                
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/mandelpngt.c%2B%2B">mandelpngt.c++</link>
+        </para>
+        <para>
+            Mielőtt kifejezetten a Mandelbrot-halmazról beszélnénk, beszéljünk előbb egy kicsit a fraktálokról, mint geometriai alakzatokról. A fraktálok végtelenül komplex geometriai alakzatok, melyek két gyakori, jellemző tulajdonsággal rendelkeznek:
+            Az első, hogy a fraktálok határoló vonalai vagy felületei végtelenül "gyűröttek" vagy "érdesek". A második gyakori jellemzőjük a problematikus, de jól érzékelhető önhasonlóság.
+            A Mandelbrot-halmaz azon c komplex számokból áll, melyekre az alábbi (komplex szám értékű) X<subscript>n</subscript> rekurzív sorozat:</para><para>x<subscript>1</subscript> := c</para>
+            <para>x<subscript>n+1</subscript> := (X<subscript>n</subscript>)<superscript>2</superscript> + c</para> <para>nem tart végtelenbe, azaz abszolút értékben korlátos. A halmazt Benoît Mandelbrot fedezte fel 1980-ban a komplex számsíkon.
+            A Mandelbrot-halmazt úgy tudjuk megjeleníteni, hogy az origóra húzunk egy pl. 800x800-as rácsot, majd a rács minden pontján megnézzük, melyik komplex számnak felelnek meg. Ha jól csináltuk, az alábbi ábrát kell kapnunk: 
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/snLhwKr.png" scale="35" />
+                </imageobject>
+            </mediaobject>
+
+
+            </para>
+    </section>      
+        
+    <section>
+        <title>A Mandelbrot halmaz a <filename>std::complex</filename> osztállyal</title>
+        <para>
+                
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/3.1.2.cpp">3.1.2.cpp</link>
+        </para>
+        <para>
+            Az előző feladat alapján megnézzük, hogyan is néz ki ez az algoritmus C++ nyelven megírva. 
+            Include-oljuk az alap "iostream" library-t; a "png++/png.hpp" könyvtárat, mivel képpel foglalkozunk; majd a lényeget, a <link xlink:href="https://en.cppreference.com/w/cpp/numeric/complex">"complex"</link> könyvtárat. 
+            Bekérjük az argumentumokat a felhasználótól (mint például az ablakunk szélességét és magasságát, vagy az iterációs határt), majd készítünk egy üres képet, amin elkezdjük rajzolni a halmazunkat.
+            Ez végigmegy a sorokon és oszlopokon egy léptetéses <emphasis role="strong">for()</emphasis> ciklussal, és a háló rácspontjaival megegyező komplex számokat kirajzolja.
+        </para>
+    </section>        
+                
+    <section>
+        <title>Biomorfok</title>
+        <para>
+        </para>
+        <para>
+            Megoldás videó: <link xlink:href="https://youtu.be/IJMbgRzY76E">https://youtu.be/IJMbgRzY76E</link>
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/Biomorf">https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/Biomorf</link>
+        </para>
+        <para>
+            Mivel még mindig a Mandelbrot-halmazzal foglalkozunk, ezért a programunk forráskódja szerkezetileg hasonlítani fog az előző feladatban látott kódra. Mindezt az iterációk módosításával hozzuk létre. A biomorfokról bővebben 
+            <link xlink:href="https://www.emis.de/journals/TJNSA/includes/files/articles/Vol9_Iss5_2305--2315_Biomorphs_via_modified_iterations.pdf"><emphasis role="strong">ezen</emphasis></link> a linken olvashatunk, és ebből is fogunk dolgozni.
+            Ugyanazokat a könyvtárakat használjuk, mint az előző feladatban, ugyanazokat az argumentumokat használjuk, de ebben a verzióban argumentumként kérjük be a komplex számsíkért felelő adatokat, nem pedig utólag deklaráljuk őket.
+            Ezek után a szerkezet még ugyanaz marad, csinálunk egy üres képet, majd oszloponként és soronként haladva kirajzoljuk a kért képünket; pont úgy, mint az előző feladatban. A képletet változtathatjuk; próbálkozhatunk, hogy kijön-e nekünk is
+            ugyanaz az ábra, mint amit referenciának használtunk a pdf-ből.
+            
+        </para>                        
+    </section>                     
+
+    <section>
+        <title>A Mandelbrot halmaz CUDA megvalósítása</title>
+        <para>
+        </para>
+        <para>
+            Megoldás videó: 
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/mandelpngc_60x60_100.cu">mandelpngc_60x60_100.cu</link>
+        </para>
+        <para>
+            A CUDA megvalósítás C++ alapokon működik, ezért nem csoda, hogy hasonlít a C++ kódunkhoz. A változtatás benne az, hogy nem a CPU-t terheljük a kódunkkal, hanem az nVidia kártyánk CUDA magjait, amely gyorsabb végrehajtást nyújt,
+            mint a processzorunk. Ezt viszont tesztelni is szeretnénk, ezért megírjuk a CUDA-kompatibilis kódot, amit majd nvcc-vel kell fordítanunk. A legfőbb változtatás az alábbi kódcsipet beírásával történik: 
+            <programlisting language="C++"><![CDATA[void
+cudamandel (int kepadat[MERET][MERET])
+{
+
+  int *device_kepadat;
+  cudaMalloc ((void **) &device_kepadat, MERET * MERET * sizeof (int));
+  
+  dim3 grid (MERET / 10, MERET / 10);
+  dim3 tgrid (10, 10);
+  mandelkernel <<< grid, tgrid >>> (device_kepadat);  
+  
+  cudaMemcpy (kepadat, device_kepadat,
+	      MERET * MERET * sizeof (int), cudaMemcpyDeviceToHost);
+  cudaFree (device_kepadat);
+
+}]]></programlisting>
+        </para>
+    </section>                     
+
+    <section>
+        <title>Mandelbrot nagyító és utazó C++ nyelven</title>
+        <para>
+            Építs GUI-t a Mandelbrot algoritmusra, lehessen egérrel nagyítani egy területet, illetve egy pontot
+            egérrel kiválasztva vizualizálja onnan a komplex iteréció bejárta z<subscript>n</subscript> komplex számokat!
+        </para>
+            
+        <para>
+            Megoldás forrása: <link xlink:href="https://sourceforge.net/p/udprog/code/ci/master/tree/source/labor/Qt/Frak/">Frak</link>
+        </para>
+
+        <para>
+            Megoldás videó: 
+        </para>
+        <para>
+        Hogy a forrásainkból képek legyenek, szükségünk lesz a libqt4-dev csomagra. Telepítés után a mappánkba lépve beírjuk a terminálba, hogy qmake, ez generálni fog nekünk egy Makefile-t,
+        ezután egyszerűen egy make paranccsal le is tudjuk generálni a dolgokat. Futtatás után négy képet dob ki a program, amelyekből az első az alap Mandelbrot-halmaz, a másik három pedig random nagyítások a halmazon belül.
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="img/frak.png" scale="35" />
+            </imageobject>
+        </mediaobject>
+        </para>
+        
+    </section>                     
+                                                                                                                                                                            
+    <section>
+        <title>Mandelbrot nagyító és utazó Java nyelven</title>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/MandelbrotHalmaz.java">MandelbrotHalmaz.java</link> 
+            <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/MandelbrotHalmazNagy%C3%ADt%C3%B3.java">MandelbrotHalmazNagyító.java</link>
+        </para>
+        <para>
+        A kód hasonlóan működik a C++ nyelven írt Mandelbrot halmazhoz, de ezzel a programmal tudunk kicsit szórakozni vele, mert ezzel interaktívan tudunk belenézni a halmazba. 
+        Fordítani a <emphasis role="strong">javac MandelbrotHalmazNagyító.java</emphasis> sorral tudjuk, majd <emphasis role="strong">java MandelbrotHalmazNagyító.java</emphasis>-val futtatjuk. Ahhoz, hogy a nagyító működjön, előbb a halmazt kell létrehoznunk,
+        amit a <emphasis role="strong">MandelbrotHalmaz.java</emphasis> programban írtunk meg. A program interaktív része akkor mutatkozik meg, amikor kijelölünk az alap halmazon egy területet, és a program újraszámítja a halmazt, és csak az előzőleg
+        kijelölt területet látjuk. Ezzel eljátszhatunk a végtelenségig, mivel a fraktálok végtelenül komplex alakzatok. Elöször is elindítjuk az egér kattintásainak feldolgozását az alábbi kódcsipettel: <programlisting language="java"><![CDATA[addMouseListener(new java.awt.event.MouseAdapter() {]]></programlisting> A terület kijelölése és feldolgozása úgy történik, hogy bekérjük a kijelölendő terület bal felső sarkát:
+        <programlisting language="java"><![CDATA[public void mousePressed(java.awt.event.MouseEvent m) {
+    x = m.getX();
+    y = m.getY();
+    mx = 0;
+    my = 0;
+    repaint();
+}]]></programlisting> Majd húzással kijelöljük a nagyítandó területet, amit utána újraszámítunk: 
+        <programlisting language="java"><![CDATA[public void mouseReleased(java.awt.event.MouseEvent m) {
+    double dx = (MandelbrotHalmazNagyító.this.b
+            - MandelbrotHalmazNagyító.this.a)
+            /MandelbrotHalmazNagyító.this.szélesség;
+    double dy = (MandelbrotHalmazNagyító.this.d
+            - MandelbrotHalmazNagyító.this.c)
+            /MandelbrotHalmazNagyító.this.magasság;
+    new MandelbrotHalmazNagyító(MandelbrotHalmazNagyító.this.a+x*dx,
+            MandelbrotHalmazNagyító.this.a+x*dx+mx*dx,
+            MandelbrotHalmazNagyító.this.d-y*dy-my*dy,
+            MandelbrotHalmazNagyító.this.d-y*dy,
+            600,
+            MandelbrotHalmazNagyító.this.iterációsHatár);
+    }
+});]]></programlisting>
+        </para>
+    </section>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>                

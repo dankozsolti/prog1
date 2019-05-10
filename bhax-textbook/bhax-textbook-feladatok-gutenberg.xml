@@ -1,0 +1,117 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Gutenberg!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+        <cover>
+            <para>
+                Programozás tankönyvek rövid olvasónaplói.
+            </para>
+        </cover>
+    </info>
+    <section>
+        <title>Programozási alapfogalmak</title>
+        <para>
+        Kezdjük az alapfogalmakkal: A programozási nyelveket három szintre tudjuk bontani: gépi nyelv, assembly szintű nyelv és magas szintű nyelv.
+        Mi az utolsó, magas szintű nyelvvel fogunk foglalkozni. Az ilyen szinten írt programokat forrásprogramoknak nevezzük. A magas szintű nyelven írt forrásból gépi nyelvű programot kell alkotnunk; erre létezik interpreteres és fordítóprogramos megoldás is. A <emphasis role="strong">fordítóprogram</emphasis> egy olyan program, amely a forrásunkból tárgyprogramot állít elő, amit tud kezelni a gép. Négy lépést hajt végre ez a folyamat, a lexikális elemzést, szintaktikai elemzést, szemantikai elemzést,
+        majd legenerálja a kódot. Az interpreteres megoldásnál is ugyanaz az első három lépés, de az interpreter nem csinál belőle tárgyprogramot. Minden utasításnál sorra veszi a forrást, értelmezi majd végrehajtja azt. Itt egyből megkapjuk az eredményt egy gépi rutin szerint. 
+        A programnyelveket osztályozni tudjuk: Vannak imperatív nyelvek, deklaratív nyelvek, és másnyelvű nyelvek.
+        </para>
+        <para>
+        Beszéljünk a kifejezésekről. A kifejezések olyan szintaktikai eszközök, amik arra valók, hogy a program adott pontján ismert értékekből új értéket tudunk meghatározni. Ennek két komponense van, érték és típus komponens.
+        Egy kifejezés három összetevőből áll: operandusok, operátorok és kerek zárójelek. A kifejezéseknek három alakja lehet, attól függ, hol áll az operátor az operandusokhoz képest:
+        <emphasis role="strong">prefix</emphasis>, amikor az operátor az operandusok előtt van; <emphasis role="strong">infix</emphasis>, amikor az operátor az operandusok között helyezkedik el; valamint <emphasis role="strong">postfix</emphasis>, amikor az operátort az operandusok mögé tesszük. Ezek közül az infix alak nem mindig egyértelmű.
+         Az utasításokról: 9 csoportra bonthatjuk őket: Értékadó, üres, ugró, elágaztató, ciklusszervező, hívó, vezérlésátadó, I/O valamint egyéb utasítások. Az elágaztató utasításokat is tovább bonthatjuk: Kétirányú elágaztató utasítás, vagyis feltételes utasítás (IF ... THEN); Többirányú elágaztató utasítás, ennek szintaktikája és szemantikája nyelvenként különböző.
+         A ciklusszervező utasításoknak köszönhetően egy tevékenységet bármennyiszer megismételhetünk. Ezek felépítése a fejből, magból és a végből épül fel. A feltételes ciklusnak is két fajtája van: Kezdőfeltételes ciklus, amikor a feltétel a fejben jelenik meg; valamint végfeltételes ciklus, amikor a feltétel a végben jelenik meg.
+        </para>
+        <para>
+        A programok szerkezetét nézegetve felmerül a kérdés, hogy egyben kell-e lefordítani a teljes szöveget, vagy fel lehet tördelni azt? Erre három válasz is létezik. Néhány nyelven a program önálló részekből áll, ezek külön fordíthatóak, nem struktúráltak.
+        Más nyelvekben az adott programot egy egységként kell lefordítanunk. Ez a program struktúrálható, az egységei nem függetlenek. Az utolsó esetként a kettő kombinációja is létezik. Ezek független programegységek, de tetszőleges struktúrával rendelkeznek.
+        </para>
+        <para>
+        Paraméterátadás. Ez a programegységek és az alprogramok közötti kommunikáció eszköze. Itt mindig van egy hívó és egy hívott. Ezek a módok léteznek paraméterátadásra: érték, cím, eredmény, érték-eredmény, név és szöveg szerinti paraméterátadás. Az aktuális paraméterek lehetnek az alábbiak:
+        érték szerinti: kifejezés -- cím szerinti: változó -- eredmény szerinti: változó -- érték-eredmény szerinti: változó. A következő témánk a blokk. Ez olyan programegység, amely csak és kizárólag más programegység belsejében helyezkedik el, kívül nem állhat.
+        A blokk három részből épül fel; van kezdete, törzse és vége. A kezdetet jelzi egy szó vagy speciális karakterek; A törzsben végrehajtó és deklarációs utasítások is előfordulhatnak. A blokkoknak nincsenek paraméterei, bárhol elhelyezhető, ahol végrehajtó utasítás van. Egy blokkot többféleképp is tudunk aktivizálni.
+        </para>
+        <para>
+        Nézzük mit érdemes tudni az I/O-ról. Ez a programnyelvek azon területe, ahol a leginkább eltérnek a többi programnyelvtől. Az I/O olyan eszközrendszer, ami a perifériákkal kommunikál. Ennek középpontjában az állomány van. Az adott állomány funkció szerint tekintve lehet input állomány, output állomány valamint mindkettő, tehát input-output állomány. Nézzünk pár példát, hogy egyes nyelvek hogyan kezelik ezeket az I/O eszközöket.
+        Például a FORTRAN csak fix rekordformátumot képes kezelni, a COBOL-nak erős az I/O rendszere, mert mindig konvertál. A PL/I a legjobb állománykezeléshez. Ezzel ellentétben a PASCAL állománykezelése nem túl jó. Ami számomra releváns, az a C, ennek a nyelvaz I/O eszközrendszer nem
+        </para>
+    </section>        
+    <section>
+        <title>Programozás bevezetés</title>
+        <para>                
+            <citation>KERNIGHANRITCHIE</citation>
+        </para>
+        <para>
+            Megoldás videó: <link xlink:href="https://youtu.be/zmfT9miB-jY">https://youtu.be/zmfT9miB-jY</link>
+        </para>
+        <para>
+        Elsőként a vezérlési szerkezetekkel foglalkozunk. A vezérlésátadó utasítások azt határozzák meg, milyen sorrendben hajtsa végre a számítógép a számításokat. Foglalkozzunk a különféle utasításokkal, annak típusaival.
+        Az első ilyen típus az <emphasis role="strong">egyszerű kifejezések</emphasis>, az is lehet utasítás ha egy kifejezést, például egy <emphasis role="strong">x = 1</emphasis>-et pontosvesszővel zárunk. A kapcsos zárójelekkel behatárolt deklarációkat egy blokknak, összetett utasításnak veszünk.
+        A következő típus az <emphasis role="strong">if-else</emphasis> és az <emphasis role="strong">else if</emphasis> utasítások. Az if-else utasítással választást, döntést írunk le, míg az else if megoldással többszörös elágazást készíthetünk. Ha több irányba el akarjuk
+        ágaztatni a programot, ahhoz a <emphasis role="strong">switch</emphasis> utasítás remek eszköz. A switch kiértékeli azt a kifejezést, amit a zárójelek közé rakunk, majd megnézi, hogy az adott érték megegyezik-e a case-ben tartott értékkel; és ha talál ilyet, végrehajtja a case-en belüli utasításokat. Ezzel megspórolhatunk jópár if-else utasítást.
+        Minden case-en belüli utasítás végére kell egy <emphasis role="strong">break;</emphasis> függvény, ezzel tudatjuk a programmal, hogy itt ér véget az adott utasításunk. Ha megírtuk az összes case-t amit szerettünk volna, meg kell adnunk egy <emphasis role="strong">default</emphasis>
+        értéket, amit akkor ír ki a program, ha egyik case-nek sem felel meg az értékünk.</para>
+        <para>
+        A következő, amivel foglalkozunk, az a <emphasis role="strong">for</emphasis> és a <emphasis role="strong">while</emphasis> utasítások. A <emphasis role="strong">while()</emphasis> ciklusban a gépünk kiértékeli a zárójelben lévő kifejezést, és ha az nem nulla, akkor végrehajtja a kiadott
+        utasítást, majd újra kiértékeli a kifejezést. Ez a ciklus addig megy, amíg az érték 0 nem lesz. A <emphasis role="strong">while</emphasis> ciklus általános szerkezete: <programlisting><![CDATA[while(valami)
+    utasítások]]></programlisting> A <emphasis role="strong">for</emphasis> szerkezetre példa: <programlisting><![CDATA[for(x1,x2,x3)
+    utasítások]]></programlisting> ezt át tudnánk alakítani <emphasis role="strong">while</emphasis> szerkezetre is, az alábbi módon: <programlisting><![CDATA[x1;
+while (x2) {
+    utasítások
+    x3;
+}
+]]></programlisting> A <emphasis role="strong">for</emphasis> utasítás mindhárom összetevője (x1,x2,x3) kifejezés. Általában az x1, x3 függvényhívás vagy értékadás, az x2 pedig relációs kifejezés. El lehet hagyni a kifejezések bármelyikét, de a lényeg, hogy a pontosvessző maradjon.
+Ha a függvényhívás/értékadás elmarad, akkor a pontosvessző elmarad a kifejtésből; ha viszont az x2 marad el, akkor igaznak tekinthetjük az alábbi kódot: <programlisting language="c"><![CDATA[for(;;) {
+    kódcsipet
+}]]></programlisting> ami egy végtelen ciklus. Ki tudunk belőle ugrani egy <emphasis role="strong">break</emphasis> vagy <emphasis role="strong">return</emphasis> függvénnyel.
+        </para>
+        <para>
+            A következő amit megnézünk az a <emphasis role="strong">do-while</emphasis> utasítás lesz.
+         Ez abban különbözik a <emphasis role="strong">while</emphasis> és a <emphasis role="strong">for</emphasis> utasításoktól, hogy míg ez a kettő a kiugrási feltétel teljesülését a ciklus elején vizsgálja, addig a <emphasis role="strong">do-while</emphasis> mindezt a ciklus végén teszi meg. nézzük is hogyan épül ez fel: <programlisting language="c"><![CDATA[do
+            valami
+        while(kif);]]></programlisting> Először az utasítást(valami) hajtja végre, majd a kifejezést értékeli ki(kif). Ha igaz, akkor végrehajtja az utasítást. Ha hamis, akkor a ciklus véget ér. Ezt a megoldást ritkábban szokás használni.
+        </para>
+        <para>
+        A soron következő utasítás a <emphasis role="strong">break</emphasis> utasítás. Ezt azért használjuk, mert kényelmesebb néha úgy kilépni a ciklusból, hogy nem függvényvizsgálattal tesszük azt.
+        A <emphasis role="strong">break</emphasis> utasítástól a vezérlés egyből kilép a legbelső ciklusból vagy switchből.
+        </para>
+        <para>
+        Az utolsó előtti utasításunk a <emphasis role="strong">continue</emphasis> utasítás. Ez az utasítás a <emphasis role="strong">break</emphasis>-hez kapcsolódik, de ritkábban használjuk. A while és a do
+esetében azonnal vizsgálja a feltételt, a for esetében pedig átlép az újrainicializálás lépésre. A <emphasis role="strong">continue</emphasis> csak a for, while, do ciklusokra alkalmazható, switch-re nem.
+        </para>
+        <para>
+        A legutolsó utasításunk a <emphasis role="strong">goto</emphasis> utasítás. Ezzel címkékre tudunk ugratni. Eredetileg erre soha nincs szükségünk, ezért elég is ennyi róla.
+        </para>
+    </section>        
+    <section>
+        <title>Programozás</title>
+        <para>                
+            <citation>BMECPP</citation>
+        </para>
+        <para>
+        Kezdjük a kivételkezelés alapjaival. A kivételkezelés, angolul exception handling, olyan mechanizmus, ami ha hibát talál valahol akkor a program futása egyből a hibakezelő részen folytatódik. Ne higyjük azt, hogy csak hibákat tudunk ezzel kiszűrni, mert <emphasis role="strong">kivétel</emphasis>kezelésről beszélünk, és nem <emphasis role="strong">hiba</emphasis>kezelésről. A kivételkezelő bármilyen kivételes helyzetben használható.
+        Próbáljuk ki a kivételkezelést kódban is megnézni. Tegyük fel, hogy osztani akarunk egy olyan számmal, amit a felhasználó ad meg. De mi van, ha a felhasználó 0-t ír? Azt szeretnénk, ha ezt jelezné a felhasználó felé, ezért még mielőtt eljut a felhasználóhoz, kipróbáljuk magunknak egy <emphasis role="strong">try-catch blokk</emphasis> alkalmazásával.
+        A lényeg az, hogy a <emphasis role="strong">try</emphasis> védett blokkba beírjuk úgy a kódot, ahogy szeretnénk, hogy működjön. Ugyanebben a blokkban megpróbálunk dobni neki egy kivételt a <emphasis role="strong">throw</emphasis> függvénnyel, így szeretnénk egy exception-t dobni a kódnak. Az életben is általában úgy van, ha eldobnak egy labdát, nem árt azt elkapni. Ugyanezt csináljuk a kódunkkal, a dobott kivételt elkapjuk egy <emphasis role="strong">catch</emphasis> blokkban.
+        Dobáskor a futás egyből arra a catch-re ugrik, amely paraméterei megfelelnek a dobott kivétel paramétereivel. A kivétel elkapásakor az be fog íródni a catch paramétere közé, majd lefut a catch törzse. Ha szeretnénk, meg is tekinthetjük, mit kapott el a kivételkezelő, ezt úgy tudjuk megnézni, ha a catch zárójelei közé létrehozunk egy <emphasis role="strong">const char*</emphasis> típusú változót. Gyakorlatban így nézne ki maga az elkapás:
+<programlisting language="C++"><![CDATA[catch (const char* kivetel)
+    {
+        std::cout << "Hiba: " << kivetel << std::endl;
+    }]]></programlisting> A kivételkezelés egyik legfontosabb jellemzője az, hogy ha egy try blokkban függvényhívásokra kerül sor, akármilyen mélyen is van a <emphasis role="strong">throw</emphasis>, a futás egyből a <emphasis role="strong">catch</emphasis> ágon megy tovább.
+        </para>
+        <para>
+        Tudunk olyat is készíteni, hogy egy try-catch blokkhoz <emphasis role="strong">két catch</emphasis> ágat rendelünk. A throw-nak megadunk egy paramétert, ezt a paramétert <emphasis role="strong">kivételobjektumnak</emphasis> nevezni. Ha egy kivételt nem sikerül elkapni, kezeletlen kivételnek tekintjük. Ebben az esetben egy függvény kilép az alkalmazásból.
+        Olyat is tudunk csinálni hogy egymásba ágyazunk több <emphasis role="strong">try-catch</emphasis> blokkot. Ez azért hasznos, mert így néhány kivételt a dobott kivételünkhöz közelebb tudjuk kezelni, egy fokkal alacsonyabb szintről.
+        </para>
+        <para>
+        Foglalkozzunk egy kicsit az operátorokkal. Ezek C nyelven az argumentumaikon végzik el a műveleteket. A C++ nyelvbe bevezettek pár új operátort a C-hez képest. Az egyik ilyen a hatókör operátor (::). Ezt már láttuk sokszor C++ programozás során, csak hogy soroljak párat példának: std::cout, mozgató szemantikánál std::move kipróbálása. Újítás még a pointer-tag operátorok: <emphasis role="strong">.*</emphasis> és <emphasis role="strong">->*</emphasis>
+         A következő a túlterhelésről és a függvény szintaxis. C++ nyelven már egyszer használtuk az <emphasis role="strong">operator</emphasis>-t, ezzel jeleztük a program felé, hogy speciális, saját függvényről van szó. Erre a mozgató szemantikás példát nézzük meg újra:<programlisting language="C++"><![CDATA[LZWBinFa & operator= (const LZWBinFa & cp) {
+        if(&cp != this)
+            rekurzioInditasa(cp.gyoker);
+        return *this;
+    };]]></programlisting> 
+        </para>
+    </section>        
+</chapter>                

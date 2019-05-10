@@ -1,0 +1,489 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Welch!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+    <section>
+        <title>Első osztályom</title>
+        <para>
+            Valósítsd meg C++-ban és Java-ban az módosított polártranszformációs algoritmust! A matek háttér 
+            teljesen irreleváns, csak annyiban érdekes, hogy az algoritmus egy számítása során két normálist
+            számol ki, az egyiket elspájzolod és egy további logikai taggal az osztályban jelzed, hogy van vagy
+            nincs eltéve kiszámolt szám.
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://sourceforge.net/p/udprog/code/ci/master/tree/source/labor/polargen/">Polargen C++</link>;
+            <link xlink:href="https://sourceforge.net/p/udprog/code/ci/master/tree/source/kezdo/elsojava/PolarGen.java">Polargen Java</link>
+        </para>
+        <para>
+Remek OO bevezető példa lehet egy alább itt is bemutatásra kerülő polártranszformációs normális generátor megírása
+Javaban. A java verzió megvalósításához szükségünk lesz az OpenJDK 6-os verziójára, mindjárt meg is tudjuk, miért. A programunk megírása után a JDK src.zip állományában a
+java/util/Random.java forrásban láthatjuk, hogy magában a JDK-ban is hasonlóan oldották meg a feladatot a Sun programozói! <programlisting language="java"><![CDATA[private double nextNextGaussian;
+private boolean haveNextNextGaussian = false;]]></programlisting> <programlisting language="java"><![CDATA[synchronized public double nextGaussian() {
+    //See Knutch, ACP, Section 3.4.1 Algorithm C.
+    if (haveNextNextGaussian) {
+        haveNextGaussian = false;
+        return nextNextGaussian;
+    } else {
+        double v1, v2, s;
+        do {
+            v1 = 2 * nextDouble() -1; between -1 and 1
+            v2 = 2 * nextDouble() -1; between -1 and 1
+            s = v1 * v1 + v2 * v2;
+        } while (s >= 1 || s == 0);
+        double multiplier = StrictMath.sqrt(-2 * StrictMath.log(s)/s);
+        nextNextGaussian = v2 * multiplier;
+        haveNextNextGaussian = true;
+        return v1 * multiplier;
+    }]]></programlisting>
+</para>
+<para>Elkészítjük a módosított polármódszeres algoritmust Javaban, majd C++ nyelven. Az algoritmusunk matematikai háttere most számunkra lényegtelen, fontos viszont az eljárás azon jellemzője, hogy egy
+számítási lépés két normális eloszlású számot állít elő, tehát minden páratlanadik meghíváskor nem kell
+számolnunk, csupán az előző lépés másik számát visszaadnunk. Ha a programot lefordítjuk és futtatjuk, akkor a következő kimenetet kaphatjuk:
+<programlisting><![CDATA[-0.7302435745349951
+0.3398973333782606
+-0.1745186408410782
+-0.6733291138289893
+-0.7141255333702377
+0.8105205642319349
+-0.2166963741203095
+-0.6100935726625737
+-0.0061257158500475665
+0.09213084665478943]]></programlisting>
+        </para>                
+    </section>        
+
+    <section>
+        <title>LZW</title>
+        <para>
+            Valósítsd meg C-ben az LZW algoritmus fa-építését!
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/z.c">LZWbinFa</link>
+        </para>
+        <para>
+            Fa alatt egy olyan rekurzív adatszerkezetet értünk, amely belső és külső csúcsok hierarchikus (szülő-gyermek) elrendezéséből áll. 
+            A bináris fa legfőbb jellemzője az, hogy mindegyik csomópontnak csak két utóda lehet. A bináris fák utódjait megkülönböztetjük aszerint, hogy bal illetve jobb részfák.
+            A programunk úgy működik, hogy megadunk neki egy szöveges fájlt, a program pedig lebontja a karaktereket binfa szerkezetre, ám hogy ezt megtekintsük, meg kell adnunk neki egy kimenetet is, hogy később megnézhessük azt.
+            <programlisting language="C"><![CDATA[typedef struct binfa
+{
+  int ertek;
+  struct binfa *bal_nulla;
+  struct binfa *jobb_egy;
+} BINFA, *BINFA_PTR;
+
+BINFA_PTR
+uj_elem ()
+{
+  BINFA_PTR p;
+
+  if ((p = (BINFA_PTR) malloc (sizeof (BINFA))) == NULL)
+    {
+      perror ("memoria");
+      exit (EXIT_FAILURE);
+    }
+  return p;
+}]]></programlisting> A fentebbi kódrészletben definiáltuk a binfa struktúrát, valamint a BINFA_PTR-t, ami a felhasználó által definiált típus lesz. A következőkben megnézzük, hogyan is épül fel a binfa:<programlisting language="C"><![CDATA[int
+main (int argc, char **argv)
+{
+  char b;
+  int egy_e;
+  int i;
+  unsigned char c;
+  
+  BINFA_PTR gyoker = uj_elem ();
+  gyoker->ertek = '/';
+  gyoker->bal_nulla = gyoker->jobb_egy = NULL;
+  BINFA_PTR fa = gyoker;
+  long max=0;
+while (read (0, (void *) &b, sizeof(unsigned char)))
+    {
+        for(i=0;i<8; ++i)
+        {
+            egy_e= b& 0x80;
+            if ((egy_e >>7)==0)
+                c='1';
+            else
+                c='0';
+        }
+//      write (1, &b, 1);
+      if (c == '0')
+	{
+	  if (fa->bal_nulla == NULL)
+	    {
+	      fa->bal_nulla = uj_elem ();
+	      fa->bal_nulla->ertek = 0;
+	      fa->bal_nulla->bal_nulla = fa->bal_nulla->jobb_egy = NULL;
+	      fa = gyoker;
+	    }
+	  else
+	    {
+	      fa = fa->bal_nulla;
+	    }
+	}
+      else
+	{
+	  if (fa->jobb_egy == NULL)
+	    {
+	      fa->jobb_egy = uj_elem ();
+	      fa->jobb_egy->ertek = 1;
+	      fa->jobb_egy->bal_nulla = fa->jobb_egy->jobb_egy = NULL;
+	      fa = gyoker;
+	    }
+	  else
+	    {
+	      fa = fa->jobb_egy;
+	    }
+	}
+    }
+
+  printf ("\n");
+  kiir (gyoker);]]></programlisting> Fentebb láthatjuk, hogyan is működik a bináris fa. Létrehozzuk a gyökeret, majd balra és jobbra is elkezdjük létrehozni a gyerekeket. Hogy megtudjuk pontosan mennyi származtatásról is beszélünk, meg kell néznünk
+  az átlagos ághosszat, vagyis a szórás összegét, az átlagot és a mélységet. <programlisting language="C"><![CDATA[extern int max_melyseg, atlagosszeg, melyseg, atlagdb;
+  extern double szorasosszeg, atlag;
+
+  printf ("melyseg=%d\n", max_melyseg - 1);
+
+  /* Átlagos ághossz kiszámítása */
+  atlagosszeg = 0;
+  melyseg = 0;
+  atlagdb = 0;
+  ratlag (gyoker);
+  // atlag = atlagosszeg / atlagdb;
+  // (int) / (int) "elromlik", ezért casoljuk
+  // K&R tudatlansági védelem miatt a sok () :)
+  atlag = ((double) atlagosszeg) / atlagdb;
+
+  /* Ághosszak szórásának kiszámítása */
+  atlagosszeg = 0;
+  melyseg = 0;
+  atlagdb = 0;
+  szorasosszeg = 0.0;
+
+  rszoras (gyoker);
+
+  double szoras = 0.0;
+
+  if (atlagdb - 1 > 0)
+    szoras = sqrt (szorasosszeg / (atlagdb - 1));
+  else
+    szoras = sqrt (szorasosszeg);
+
+  printf ("altag=%f\nszoras=%f\n", atlag, szoras);
+
+  szabadit (gyoker);
+}
+]]></programlisting> Az <emphasis role="strong">atlag()</emphasis> függvényt inicializálnunk kell, mert azt a rekurzív bejárás használja: <programlisting language="C"><![CDATA[int atlagosszeg = 0, melyseg = 0, atlagdb = 0;
+void
+ratlag (BINFA_PTR fa)
+{
+
+  if (fa != NULL)
+    {
+      ++melyseg;
+      ratlag (fa->jobb_egy);
+      ratlag (fa->bal_nulla);
+      --melyseg;
+
+      if (fa->jobb_egy == NULL && fa->bal_nulla == NULL)
+	{
+
+	  ++atlagdb;
+	  atlagosszeg += melyseg;
+
+	}
+
+    }
+
+}]]></programlisting> A szórással is eljátsszuk ugyanezt, tehát inicializálunk: <programlisting language="C"><![CDATA[double szorasosszeg = 0.0, atlag = 0.0;
+
+void
+rszoras (BINFA_PTR fa)
+{
+
+  if (fa != NULL)
+    {
+      ++melyseg;
+      rszoras (fa->jobb_egy);
+      rszoras (fa->bal_nulla);
+      --melyseg;
+
+      if (fa->jobb_egy == NULL && fa->bal_nulla == NULL)
+	{
+
+	  ++atlagdb;
+	  szorasosszeg += ((melyseg - atlag) * (melyseg - atlag));
+
+	}
+
+    }
+
+}]]></programlisting> A következő kódrészletben megírjuk a <emphasis role="strong">kiir</emphasis> függvényt, ami az inorder fabejárásért felelős, tehát az outputban a gyökér valahol a gyerekek között lesz. 
+<programlisting language="C"><![CDATA[int max_melyseg = 0;
+
+void
+kiir (BINFA_PTR elem)
+{
+  if (elem != NULL)
+    {
+      ++melyseg;
+      _melyseif (melyseg > maxg);
+	max_melyseg = melyseg;
+      kiir (elem->jobb_egy);
+      for (int i = 0; i < melyseg; ++i)
+	printf ("---");
+      printf ("%c(%d)\n", elem->ertek < 2 ? '0' + elem->ertek : elem->ertek,
+	      melyseg - 1);
+      kiir (elem->bal_nulla);
+      --melyseg;
+    }
+}]]></programlisting> Végül felszabadítjuk az elemeket:<programlisting language="C"><![CDATA[void
+szabadit (BINFA_PTR elem)
+{
+  if (elem != NULL)
+    {
+      szabadit (elem->jobb_egy);
+      szabadit (elem->bal_nulla);
+      free (elem);
+    }
+}]]></programlisting>
+        </para>
+    </section>        
+        
+    <section>
+        <title>Fabejárás</title>
+        <para>
+            Járd be az előző (inorder bejárású) fát pre- és posztorder is!
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása:  <link xlink:href="https://sourceforge.net/p/udprog/code/ci/master/tree/source/labor/ziv/z_pre.c">pre</link>; <link xlink:href="https://sourceforge.net/p/udprog/code/ci/master/tree/source/labor/ziv/z_post.c">post</link>
+        </para>
+        <para>
+            Nem kell nagyon belenyúlni a binfa programba, mikor a fabejárást szeretnénk állítani. az inorder részt már az előző részben elmagyaráztuk, ennek alapján már nem lesz nehéz kitalálni, mire való a másik két bejárási módszer. a preorder azt jelenti,
+            hogy a gyökeret az outputban elsőként írja fel, majd utána írja a többi csomópontot(vagy gyereket). A kódban egyszerűen annyit kell átírnunk, hogy felcseréljük a csomópontok kiírásának sorrendjét. A preorder tehát így néz ki:
+            <programlisting language="C"><![CDATA[void
+kiir (BINFA_PTR elem)
+{
+  if (elem != NULL)
+    {
+      ++melyseg;
+      _melyseif (melyseg > maxg);
+	max_melyseg = melyseg;
+      for (int i = 0; i < melyseg; ++i)
+	printf ("---");
+      printf ("%c(%d)\n", elem->ertek < 2 ? '0' + elem->ertek : elem->ertek,
+	      melyseg - 1);
+      kiir (elem->bal_nulla);
+      kiir (elem->jobb_egy);
+      --melyseg;
+    }
+}]]></programlisting> A postorder pedig így: <programlisting language="C"><![CDATA[void
+kiir (BINFA_PTR elem)
+{
+  if (elem != NULL)
+    {
+      ++melyseg;
+      _melyseif (melyseg > maxg);
+	max_melyseg = melyseg;
+      for (int i = 0; i < melyseg; ++i)
+	printf ("---");
+      printf ("%c(%d)\n", elem->ertek < 2 ? '0' + elem->ertek : elem->ertek,
+	      melyseg - 1);
+      kiir (elem->bal_nulla);
+      kiir (elem->jobb_egy);
+      --melyseg;
+    }
+}]]></programlisting>
+        </para>
+    </section>        
+                        
+    <section>
+        <title>Tag a gyökér</title>
+        <para>
+            Az LZW algoritmust ültesd át egy C++ osztályba, legyen egy Tree és egy beágyazott Node
+            osztálya. A gyökér csomópont legyen kompozícióban a fával!
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/z3a7.cpp">z3a7.cpp</link>
+        </para>
+        <para>
+            Az LZW binfa C++ implementációja azzal kezdődik, hogy az egész fát egy <emphasis role="strong">LZWBinFa</emphasis> osztályba ágyazzuk. Az osztály
+ definíciójába beágyazzuk a fa egy csomópontjának jellemzését, ez lesz a
+ beágyazott Csomopont osztály. Azért ágyazzuk be, mert külön nem szánunk neki szerepet, csak a fa részeként számolunk vele. <programlisting language="C++"><![CDATA[class LZWBinFa
+{
+public:
+
+    LZWBinFa ():fa (&gyoker)
+    {
+    }
+    ~LZWBinFa ()
+    {
+        szabadit (gyoker.egyesGyermek ());
+        szabadit (gyoker.nullasGyermek ());
+    }]]></programlisting> Ebben az osztályban a fa gyökere nem pointer, hanem a '/' betűt tartalmazó objektum; a fa viszont már pointer, mindig az épülő LZW-fa azon csomópontjára mutat, amit az input feldolgozásakor az LZW algoritmus diktál.
+    Ez a konstruktor annyit csinál, hogy a fa mutatót ráállítja a gyökérre. Tagfüggvényként túlterheljük a &#60;&#60; operátort, mert ekkor úgy nyomhatjuk a fába az inputot, hogy <emphasis role="strong">binFa &#60;&#60; b</emphasis>; ahol a b
+     egy '0' vagy '1'-es karakter.
+     Mivel ezen operátor tagfüggvény, így van rá "értelmezve" az aktuális (this "rejtett paraméterként"
+     kapott ) példány, azaz annak a fának amibe éppen be akarjuk nyomni a b betűt a tagjai
+     ("fa", "gyoker") használhatóak a függvényben. <programlisting language="C++"><![CDATA[void operator<< (char b)
+    {
+        // Mit kell betenni éppen, '0'-t?
+        if (b == '0')
+        {
+            /* Van '0'-s gyermeke az aktuális csomópontnak?
+           megkérdezzük Tőle, a "fa" mutató éppen reá mutat */
+            if (!fa->nullasGyermek ())	// ha nincs, hát akkor csinálunk
+            {
+                // elkészítjük, azaz páldányosítunk a '0' betű akt. parammal
+                Csomopont *uj = new Csomopont ('0');
+                // az aktuális csomópontnak, ahol állunk azt üzenjük, hogy
+                // jegyezze már be magának, hogy nullás gyereke mostantól van
+                // küldjük is Neki a gyerek címét:
+                fa->ujNullasGyermek (uj);
+                // és visszaállunk a gyökérre (mert ezt diktálja az alg.)
+                fa = &gyoker;
+            }
+            else			// ha van, arra rálépünk
+            {
+                // azaz a "fa" pointer már majd a szóban forgó gyermekre mutat:
+                fa = fa->nullasGyermek ();
+            }
+        }
+        // Mit kell betenni éppen, vagy '1'-et?
+        else
+        {
+            if (!fa->egyesGyermek ())
+            {
+                Csomopont *uj = new Csomopont ('1');
+                fa->ujEgyesGyermek (uj);
+                fa = &gyoker;
+            }
+            else
+            {
+                fa = fa->egyesGyermek ();
+            }
+        }
+    }]]></programlisting>
+        </para>
+    </section>        
+                
+    <section>
+        <title>Mutató a gyökér</title>
+        <para>
+            Írd át az előző forrást, hogy a gyökér csomópont ne kompozícióban, csak aggregációban legyen a 
+            fával!
+        </para>
+        <para>
+            Megoldás videó: 
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/dankozsolti/prog1/blob/master/z3a7_pointer.cpp">z3a7_pointer</link>
+        </para>
+        <para>
+            Alapul vesszük az előző C++ kódot, ebben fogjuk átírni a szükséges dolgokat. 
+            Először átírjuk a <emphasis role="strong">protected</emphasis> osztályban a gyökér csomópontot pointerré:
+            <programlisting language="C++"><![CDATA[Csomopont *gyoker;]]></programlisting> Majd elkezdhetjük a többi kódrészlet átírását, például a legelején a konstruktorra
+Kezdjük már is a legelején, a konstruktort írjuk át erre:
+<programlisting language="C++">
+<![CDATA[LZWBinFa (gyoker) 
+{
+  fa = gyoker;
+}]]>
+</programlisting>
+Szintén a konstruktorban, mivel már mutató a gyökér, ezért a <emphasis role="strong">szabadit()</emphasis> függvényünkbe is bele kell nyúlnunk kicsit, mutatót állítunk a gyermekekre:
+<programlisting language="C++">
+<![CDATA[~LZWBinFa ()
+    {
+        szabadit (gyoker -> egyesGyermek ());
+        szabadit (gyoker -> nullasGyermek ());
+    }]]>
+</programlisting>
+Végül a <emphasis role="strong">&amp;gyoker</emphasis> kifejezéseket kicseréljük simán <emphasis role="strong">gyoker</emphasis>-re, ugyanis nekünk nem a pointer címére lesz szükségünk, hanem arra a címre amire az mutat.
+        </para>
+    </section>                     
+
+    <section>
+        <title>Mozgató szemantika</title>
+        <para>
+            Írj az előző programhoz mozgató konstruktort és értékadást, a mozgató konstruktor legyen a mozgató
+            értékadásra alapozva!
+        </para>
+        <para>
+            Tutor: Győri Márk Patrik
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://gitlab.com/Mark018/prog1/blob/master/Welch/mozgatas_masolas.cpp">mozgato</link>
+        </para>
+        <para>
+            <programlisting language="C++"><![CDATA[LZWBinFa & operator= (const LZWBinFa & cp) {
+        if(&cp != this)
+            rekurzioInditasa(cp.gyoker);
+        return *this;
+    };]]></programlisting>
+                Létrehozunk egy operátort, ami ha nem a gyökeret tartalmazza, akkor lemásolja saját magát.
+                A másolás rekurzióval végződik, ami a fa minden ágát újra létrehozza egy másik gyökérre.
+            <programlisting language="C++"><![CDATA[void rekurzioInditasa(Csomopont csm){
+        if(csm.nullasGyermek()){
+            fa = &gyoker;
+            Csomopont *uj = new Csomopont ('0');
+            fa->ujNullasGyermek (uj);
+            fa = fa->nullasGyermek();
+            std::cout << "GYOKER: nullas van"  << std::endl;
+            rekurzioAzAgakon(csm.nullasGyermek());
+        }
+        if(csm.egyesGyermek()){
+            fa = &gyoker;
+            Csomopont *uj = new Csomopont ('1');
+            fa->ujEgyesGyermek (uj);
+            fa = fa->egyesGyermek();
+            std::cout << "GYOKER: egyes van"  << std::endl;
+            rekurzioAzAgakon(csm.egyesGyermek());
+        }
+    }
+ 
+    void rekurzioAzAgakon(Csomopont * csm){
+        if (csm->nullasGyermek()) {
+            std::cout << "====van nullas" << std::endl;
+            Csomopont *uj = new Csomopont ('0');
+            fa->ujNullasGyermek(uj);
+        }
+        if (csm->egyesGyermek()){
+            std::cout << "====van egyes" << std::endl;
+            Csomopont *uj = new Csomopont ('1');
+            fa->ujEgyesGyermek(uj);
+        }
+        Csomopont * nullas = fa->nullasGyermek();
+        Csomopont * egyes = fa->egyesGyermek();
+        if(nullas){
+            fa = nullas;
+            rekurzioAzAgakon(csm->nullasGyermek());
+        }
+        if(egyes){
+            fa = egyes;
+            rekurzioAzAgakon(csm->egyesGyermek());
+        }
+    }]]></programlisting>
+            A <emphasis role="strong">rekurzioInditasa</emphasis> függvény indítja el a rekurziót, ha van nullás gyermeke akkor azon fut tovább, ha van egyes gyermeke, akkor arra is meghívásra kerül.
+            A fő eljárást maga a rekurzioAzAgakon függvény végzi, ez fut át az összes ágon, és létrehozza az új node-okat.
+
+        <programlisting language="C++"><![CDATA[LZWBinFa binFa2;
+    binFa2 = binFa;]]></programlisting>
+            A másolás már csak az <emphasis role="strong">"="</emphasis> jel operátorral meghívva történik, így az alap binFa átmásolódik a binFa2-be.
+        </para>
+    </section>                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>                
